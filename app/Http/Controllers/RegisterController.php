@@ -16,11 +16,11 @@ class RegisterController extends Controller
             'username'=>'required|max:255',
             'email'=>'required|unique:users,email|max:255',
             'phone'=>'required|max_digits:11',
-            'password'=>'required'
+            'password'=>'required|min:3'
         ]);
 
         User::create([
-            
+
             'username'=>$request->username,
             'email'=>$request->email,
             'phone'=>$request->phone,
@@ -29,9 +29,9 @@ class RegisterController extends Controller
         ]);
         session()->flash('Add','Your Account Was Successfully Created');
 
-        
+
         return redirect('/register');
 
-        
+
     }
 }
