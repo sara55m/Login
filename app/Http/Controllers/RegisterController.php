@@ -11,27 +11,22 @@ class RegisterController extends Controller
         return view('register');
     }
     public function store(Request $request){
-        $input=$request->all();
-        $validateData=$request->validate([
-            'username'=>'required|max:255',
-            'email'=>'required|unique:users,email|max:255',
-            'phone'=>'required|max_digits:11',
-            'password'=>'required|min:3'
-        ]);
+        $attributes=$this->validateUser(new User());
 
-        User::create([
-
-            'username'=>$request->username,
-            'email'=>$request->email,
-            'phone'=>$request->phone,
-            'password'=>$request->password
-
-        ]);
+        User::create($attributes);
         session()->flash('Add','Your Account Was Successfully Created');
 
 
         return redirect('/register');
 
+    }
+    protected function validateUser(){
+        return request()->validate([
+            'username'=>'required|max:255',
+            'email'=>'required|unique:users,email|max:255',
+            'phone'=>'required|max_digits:11',
+            'password'=>'required|min:3'
+        ]);
 
     }
 }
